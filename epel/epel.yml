@@ -1,0 +1,16 @@
+---
+    - name: Installs epel repo
+      yum: pkg=epel-release state=installed update_cache=true
+
+    - name: get epel-repo rpm RHEL6
+      get_url: dest=/tmp/epel-release.rpm  url=http://mirror.es.its.nyu.edu/epel//epel-release-latest-6.noarch.rpm
+      when: ansible_os_family == 'RedHat' and ansible_lsb.major_release|int == 6
+    - name: get epel-repo rpm RHEL5
+      get_url: dest=/tmp/epel-release.rpm  url=http://mirror.es.its.nyu.edu/epel//epel-release-latest-5.noarch.rpm
+      when: ansible_os_family == 'RedHat' and ansible_lsb.major_release|int == 5
+    - name: get epel-repo rpm RHEL7
+      get_url: dest=/tmp/epel-release.rpm  url=http://mirror.es.its.nyu.edu/epel//epel-release-latest-7.noarch.rpm
+      when: ansible_os_family == 'RedHat' and ansible_lsb.major_release|int == 7
+    
+   - name: install epel-repo rpm
+      yum: pkg=/tmp/epel-release.rpm state=installed

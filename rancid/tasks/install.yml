@@ -1,0 +1,53 @@
+---
+   - name: install rancid stuff
+     yum: pkg={{ item }}
+          state=present
+     with_items:
+      - wget
+      - ftp
+      - telnet
+      - perl
+      - tcl
+      - expect
+      - gcc
+      - cvs
+      - rcs
+      - autoconf
+      - php-common
+      - php-gd
+      - php-pear
+      - php-pecl-memcache
+      - php-mysql
+      - php-xml
+      - mod_ssl
+
+   - name: download RANCID
+     get_url: url=ftp://ftp.shrubbery.net/pub/rancid/rancid-3.2.tar.gz dest=/usr/local/src/rancid-3.2.tar.gz
+
+   - group: name=netadm
+   - user: name=rancid group=netadm home=/usr/local/rancid shell=/bin/bash
+
+   - name: extract rancid source
+     unarchive: src=/usr/local/src/rancid-3.2.tar.gz 
+                dest=/usr/local/src/
+                copy=no
+
+   - name: Make clean - hack until more logic can be added
+     shell: cd /usr/local/src/rancid-3.2 && make clean
+
+   - name: create makefile configuration 
+     shell: cd /usr/local/src/rancid-3.2 && ./configure --prefix=/usr/local/rancid creates=/usr/local/rancid/ 
+
+   - name: Make and make install
+     shell: cd /usr/local/src/rancid-3.2 && make && make install
+
+   - name: change owner to user rancid and group netadm
+     file: path=/usr/local/rancid owner=rancid group=netadm recurse=yes
+
+   - name: Add GROUP_NAME to /usr/local/rancid/etc/rancid.conf
+     lineinfile: dest=/usr/local/rancid/etc/rancid.conf line="LIST_OF_GROUPS=\"Routers Switches\""
+
+   - name: establish cvs repo as user rancid
+     sudo: yes
+     sudo_user: rancid
+     shell: /usr/local/rancid/bin/rancid-cvs

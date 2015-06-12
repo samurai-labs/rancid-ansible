@@ -1,0 +1,5 @@
+---
+   # allow http/ssh through firewall
+   - firewalld: service=https permanent=true state=enabled
+   - firewalld: service=ssh permanent=true state=enabled
+

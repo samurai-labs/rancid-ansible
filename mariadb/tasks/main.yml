@@ -1,0 +1,6 @@
+---
+ 
+- include: install.yml
+# uncomment this for the first run
+#- include: mysql_secure_installation.yml
+

@@ -1,0 +1,7 @@
+---
+    - name: Installs apache web server
+      yum: pkg=httpd state=installed update_cache=true
+
+    - name: Copy httpd configuration for RANCID
+      template: src=default.conf dest=/etc/httpd/conf.d/default.conf 
+      notify: restart httpd

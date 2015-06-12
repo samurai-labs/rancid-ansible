@@ -1,0 +1,11 @@
+---
+- name: installs RANCID and associated dependencies 
+  hosts: rancid
+  user: root
+  sudo: yes
+
+  roles:
+    #- utils 
+    #- mariadb
+    #- rancid
+    - viewvc

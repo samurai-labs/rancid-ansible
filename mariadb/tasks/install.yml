@@ -1,0 +1,10 @@
+---
+# MySQL modules
+- name: Install MySQL
+  yum: name={{ item }} state=latest
+  with_items:
+    - mariadb
+    - mariadb-server
+    - MySQL-python
+  notify: 
+    restart mariadb

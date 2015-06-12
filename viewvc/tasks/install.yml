@@ -1,0 +1,9 @@
+---
+   - name: download viewvc
+     get_url: url=http://viewvc.tigris.org/files/documents/3330/49392/viewvc-1.1.23.tar.gz dest=/usr/local/src/viewvc.tar.gz
+
+   - name: extract viewvc
+     unarchive: src=/usr/local/src/viewvc.tar.gz
+                copy=no
+                dest=/usr/local/src/
+
